@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <capability android:name="actions.intent.OPEN_APP_FEATURE">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="pl.cclite.app"
+            android:targetClass="pl.cclite.app.MainActivity">
+            <parameter
+                android:name="feature"
+                android:key="feature" />
+            <url-template android:value="https://cclite.pl/{feature}" />
+        </intent>
+    </capability>
+
+    <shortcut
+        android:shortcutId="daily_word"
+        android:shortcutShortLabel="@string/shortcut_daily_word">
+        <capability-binding android:key="actions.intent.OPEN_APP_FEATURE">
+            <parameter-binding
+                android:key="feature"
+                android:value="dzisiejsze-slowo" />
+        </capability-binding>
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://cclite.pl/dzisiejsze-slowo" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="biblical_university"
+        android:shortcutShortLabel="@string/shortcut_biblical_uni">
+        <capability-binding android:key="actions.intent.OPEN_APP_FEATURE">
+            <parameter-binding
+                android:key="feature"
+                android:value="wirtualny-uniwersytet" />
+        </capability-binding>
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://cclite.pl/wirtualny-uniwersytet" />
+    </shortcut>
+    
+    <shortcut
+        android:shortcutId="hermeneutics_center"
+        android:shortcutShortLabel="@string/shortcut_hermeneutics">
+        <capability-binding android:key="actions.intent.OPEN_APP_FEATURE">
+            <parameter-binding
+                android:key="feature"
+                android:value="centrum-hermeneutyki" />
+        </capability-binding>
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://cclite.pl/centrum-hermeneutyki" />
+    </shortcut>
+</shortcuts>

@@ -1,0 +1,36 @@
+.gcloudignore
+.git
+.gitignore
+node_modules/
+dist/
+android/
+ios/
+*.sql
+*.pdf
+# scripts
+*.cjs
+*.mjs
+*.js
+!server.ts
+!config.ts
+!i18n.ts
+!firebase.ts
+!appIndex.ts
+!test.js
+# we might need some js files if they are imports, but strictly server.ts is the entry.
+# better to be safe and only exclude what we know is big or irrelevant.
+# The previous scripts I saw in root were mostly test scripts.
+check.txt
+tmp_tree.txt
+downloaded_bible.json
+all_radio_usages.txt
+  
+# Keep essential configs
+!package.json
+!package-lock.json
+!firebase-blueprint.json
+!firebase-applet-config.json
+!components.json
+!metadata.json
+!tsconfig.json
+!capacitor.config.ts

@@ -1,0 +1,9 @@
+{
+  "requestFramePermissions": [
+    "microphone",
+    "geolocation"
+  ],
+  "name": "Christian Culture",
+  "description": "Globalna platforma multimedialna Christian Culture Network. Autentyczny Głos Wojownika w cyfrowym świecie. Radio CC, Biblia Audio, Szkoła Biblijna oraz Miriam AI Assistant. Wszystko Dla Jezusa.",
+  "majorCapabilities": []
+}

@@ -1,0 +1,485 @@
+{
+  "entities": {
+    "radio_stats": {
+      "title": "Radio Stats",
+      "description": "Daily radio clicks counter.",
+      "type": "object",
+      "properties": {
+        "totalClicks": { "type": "integer" }
+      },
+      "required": ["totalClicks"]
+    },
+    "users": {
+      "title": "User Profile",
+      "description": "Stores user profile information and settings based on UserPersona type.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique identifier for the user." },
+        "name": { "type": "string", "description": "The user's display name." },
+        "email": { "type": "string", "format": "email", "description": "The user's email address." },
+        "profilePicture": { "type": "string", "description": "URL to the user's profile picture." },
+        "gender": { "type": "string", "enum": ["male", "female", "unspecified"], "description": "The user's gender." },
+        "ageGroup": { "type": "string", "enum": ["child", "teenager", "young_adult", "adult", "senior", "unspecified"] },
+        "maritalStatus": { "type": "string", "enum": ["single", "married", "widowed", "divorced", "unspecified"] },
+        "spiritualStatus": { "type": "string", "enum": ["believer", "seeker", "theologian", "atheist", "unspecified"] },
+        "appMode": { "type": "string", "enum": ["standard", "blind"] },
+        "theme": { "type": "string", "enum": ["dark", "light"] },
+        "location": { "type": "string" },
+        "geolocationConsent": { "type": "boolean" },
+        "preferredLaunchMode": { "type": "string", "enum": ["standard", "radio"] },
+        "smartStart": { "type": "boolean" },
+        "autostartRadio": { "type": "boolean" },
+        "keepScreenOnWhileRadioPlaying": { "type": "boolean" },
+        "isGoogleCalendarConnected": { "type": "boolean" },
+        "googleCalendarId": { "type": "string" },
+        "googleEmail": { "type": "string" },
+        "assignedMentor": { "type": "string", "enum": ["Miriam", "Jeszua"] },
+        "isFirstRun": { "type": "boolean" },
+        "role": { "type": "string", "enum": ["admin", "client"], "description": "The user's role in the application." },
+        "thematicPreferences": {
+          "type": "object",
+          "properties": {
+            "topics": { "type": "array", "items": { "type": "string" } },
+            "favoriteAuthors": { "type": "array", "items": { "type": "string" } },
+            "interestLevel": { "type": "integer", "description": "1 to 10" }
+          }
+        },
+        "favorites": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "type": { "type": "string", "enum": ["verse", "motivation", "mission", "sms", "testimony"] },
+              "content": { "type": "string" },
+              "reference": { "type": "string" },
+              "timestamp": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        "widgets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "type": { "type": "string", "enum": ["link", "social", "multimedia", "spiritual", "communication"] },
+              "content": { "type": "string" },
+              "positionIndex": { "type": "integer" },
+              "metadata": {
+                "type": "object",
+                "properties": {
+                  "url": { "type": "string" },
+                  "icon": { "type": "string" },
+                  "color": { "type": "string" },
+                  "subType": { "type": "string" },
+                  "title": { "type": "string" },
+                  "description": { "type": "string" },
+                  "videoId": { "type": "string" },
+                  "embedUrl": { "type": "string" }
+                }
+              },
+              "layout": {
+                "type": "object",
+                "properties": {
+                  "w": { "type": "integer" },
+                  "h": { "type": "integer" },
+                  "x": { "type": "integer" },
+                  "y": { "type": "integer" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["uid", "name", "role"]
+    },
+    "live_presence": {
+      "title": "Live Presence",
+      "description": "Tracks users currently active in the app based on LiveUser type.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "userName": { "type": "string" },
+        "lastSeen": { "type": "string", "format": "date-time" },
+        "activeStream": { "type": "string" },
+        "isPraying": { "type": "boolean" }
+      },
+      "required": ["uid", "lastSeen"]
+    },
+    "prayer_intentions": {
+      "title": "Prayer Intention",
+      "description": "Shared prayer requests from the community based on PrayerIntention type.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "prayerCount": { "type": "integer" }
+      },
+      "required": ["userId", "text", "createdAt"]
+    },
+    "friend_requests": {
+      "title": "Friend Request",
+      "description": "Pending friend requests between users.",
+      "type": "object",
+      "properties": {
+        "fromId": { "type": "string" },
+        "fromName": { "type": "string" },
+        "fromAvatar": { "type": "string" },
+        "toId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "rejected"] },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fromId", "toId", "status", "timestamp"]
+    },
+    "friends": {
+      "title": "Friendship",
+      "description": "Confirmed relationships between users.",
+      "type": "object",
+      "properties": {
+        "uids": { "type": "array", "items": { "type": "string" } },
+        "since": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uids", "since"]
+    },
+    "private_messages": {
+      "title": "Private Message",
+      "description": "Messages in a 1-on-1 chat.",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "text", "timestamp"]
+    },
+    "blocks": {
+      "title": "Block",
+      "description": "Blocked users.",
+      "type": "object",
+      "properties": {
+        "blockerId": { "type": "string" },
+        "blockedId": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["blockerId", "blockedId", "timestamp"]
+    },
+    "morning_inspirations": {
+      "title": "Morning Inspiration",
+      "description": "Daily morning inspiration posts created by administrators.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "authorUid": { "type": "string" },
+        "authorName": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "commentsCount": { "type": "integer" },
+        "sharesCount": { "type": "integer" }
+      },
+      "required": ["title", "content", "authorUid", "timestamp"]
+    },
+    "christian_inspirations": {
+      "title": "Christian Inspiration",
+      "description": "Christian inspiration posts created by administrators.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "authorUid": { "type": "string" },
+        "authorName": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "status": { "type": "string" },
+        "smsSent": { "type": "boolean" },
+        "pushSent": { "type": "boolean" }
+      },
+      "required": ["title", "content", "authorUid", "timestamp"]
+    },
+    "sms_subscribers": {
+      "title": "SMS Subscriber",
+      "description": "User subscribed to SMS notifications.",
+      "type": "object",
+      "properties": {
+        "phoneNumber": { "type": "string" },
+        "contactName": { "type": "string" },
+        "googleContactId": { "type": "string" },
+        "source": { "type": "string" },
+        "subscribed": { "type": "boolean" },
+        "userId": { "type": "string" },
+        "timestampSubscribed": { "type": "string", "format": "date-time" }
+      },
+      "required": ["phoneNumber", "subscribed", "timestampSubscribed", "source"]
+    },
+    "morning_inspiration_comments": {
+      "title": "Morning Inspiration Comment",
+      "description": "Comments on morning inspiration posts.",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "authorUid": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorAvatar": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["text", "authorUid", "timestamp"]
+    },
+    "ccn_business_card": {
+      "title": "CCN Business Card",
+      "description": "Global CCN Business Card managed by the administrator.",
+      "type": "object",
+      "properties": {
+        "verseOfTheDay": { "type": "string" },
+        "verseReference": { "type": "string" },
+        "specialMessage": { "type": "string" },
+        "widgets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "type": { "type": "string", "enum": ["link", "social", "multimedia", "spiritual", "communication"] },
+              "content": { "type": "string" },
+              "positionIndex": { "type": "integer" },
+              "metadata": {
+                "type": "object",
+                "properties": {
+                  "url": { "type": "string" },
+                  "icon": { "type": "string" },
+                  "color": { "type": "string" },
+                  "subType": { "type": "string" },
+                  "title": { "type": "string" },
+                  "description": { "type": "string" },
+                  "videoId": { "type": "string" },
+                  "embedUrl": { "type": "string" }
+                }
+              },
+              "layout": {
+                "type": "object",
+                "properties": {
+                  "w": { "type": "integer" },
+                  "h": { "type": "integer" },
+                  "x": { "type": "integer" },
+                  "y": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "updatedBy": { "type": "string" }
+      },
+      "required": ["updatedAt", "updatedBy"]
+    },
+    "counters": {
+      "title": "Counters",
+      "description": "Global and daily counters for amens/prayers.",
+      "type": "object",
+      "properties": {
+        "lastUpdate": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": { "type": "integer" }
+    },
+    "apostle_brain_config": {
+      "title": "Apostle Brain Config",
+      "description": "Configuration and API keys for the Digital Apostle agent.",
+      "type": "object",
+      "properties": {
+        "isEnabled": { "type": "boolean" },
+        "lastActive": { "type": "string", "format": "date-time" },
+        "apiKeys": {
+          "type": "object",
+          "properties": {
+            "meta": { "type": "string" },
+            "twilio": { "type": "string" },
+            "gmail": { "type": "string" }
+          }
+        },
+        "constitutionUrl": { "type": "string" }
+      }
+    },
+    "apostle_tasks": {
+      "title": "Apostle Task",
+      "description": "A scheduled or running task for the Digital Apostle.",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["post_social", "analyze_logs", "send_sms", "generate_report"] },
+        "status": { "type": "string", "enum": ["pending", "running", "completed", "failed"] },
+        "payload": { "type": "object" },
+        "scheduledAt": { "type": "string", "format": "date-time" },
+        "completedAt": { "type": "string", "format": "date-time" },
+        "error": { "type": "string" }
+      },
+      "required": ["type", "status", "scheduledAt"]
+    },
+    "apostle_logs": {
+      "title": "Apostle Action Log",
+      "description": "Logs of actions taken by the Apostle.",
+      "type": "object",
+      "properties": {
+        "action": { "type": "string" },
+        "details": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "level": { "type": "string", "enum": ["info", "warning", "error"] }
+      },
+      "required": ["action", "timestamp", "level"]
+    },
+    "apostle_reports": {
+      "title": "Apostle Strategic Report",
+      "description": "Daily development reports generated by the Apostle.",
+      "type": "object",
+      "properties": {
+        "summary": { "type": "string" },
+        "actionsTaken": { "type": "array", "items": { "type": "string" } },
+        "strategicSuggestions": { "type": "array", "items": { "type": "string" } },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["summary", "timestamp"]
+    },
+    "apostle_ux_analysis": {
+      "title": "Apostle UX Analysis",
+      "description": "UX/UI issues detected by the Apostle.",
+      "type": "object",
+      "properties": {
+        "issue": { "type": "string" },
+        "context": { "type": "string" },
+        "severity": { "type": "string", "enum": ["low", "medium", "high"] },
+        "detectedAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["new", "investigating", "fixed", "ignored"] }
+      },
+      "required": ["issue", "detectedAt", "status"]
+    },
+    "bible_translations": {
+      "title": "Bible Translation",
+      "description": "Definition of a Bible translation.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string", "enum": ["PL", "EN"] }
+      },
+      "required": ["id", "name", "category"]
+    },
+    "bible_books": {
+      "title": "Bible Book",
+      "description": "Definition of a book within a translation.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "translationId": { "type": "string" },
+        "title": { "type": "string" },
+        "shortName": { "type": "string" },
+        "order": { "type": "integer" }
+      },
+      "required": ["id", "translationId", "title", "order"]
+    },
+    "bible_verses": {
+      "title": "Bible Verse",
+      "description": "Text of a verse.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "translationId": { "type": "string" },
+        "bookId": { "type": "string" },
+        "chapter": { "type": "integer" },
+        "verse": { "type": "integer" },
+        "text": { "type": "string" }
+      },
+      "required": ["id", "translationId", "bookId", "chapter", "verse", "text"]
+    }
+  },
+  "firestore": {
+    "/radio_stats/{dateId}": {
+      "schema": "radio_stats",
+      "description": "Daily aggregated clicks for the radio."
+    },
+    "/users/{userId}": {
+      "schema": "users",
+      "description": "User profile document."
+    },
+    "/live_presence/{userId}": {
+      "schema": "live_presence",
+      "description": "Real-time presence of a user."
+    },
+    "/counters/{counterId}": {
+      "schema": "counters",
+      "description": "Global counters."
+    },
+    "/prayer_intentions/{intentionId}": {
+      "schema": "prayer_intentions",
+      "description": "Community prayer intentions."
+    },
+    "/friend_requests/{requestId}": {
+      "schema": "friend_requests",
+      "description": "Friend requests."
+    },
+    "/friends/{friendshipId}": {
+      "schema": "friends",
+      "description": "Confirmed friendships."
+    },
+    "/private_chats/{chatId}/messages/{messageId}": {
+      "schema": "private_messages",
+      "description": "Private messages."
+    },
+    "/blocks/{blockId}": {
+      "schema": "blocks",
+      "description": "Blocked users."
+    },
+    "/ccn_business_card/global": {
+      "schema": "ccn_business_card",
+      "description": "Global CCN Business Card managed by the administrator."
+    },
+    "/morning_inspirations/{postId}": {
+      "schema": "morning_inspirations",
+      "description": "Morning inspiration posts."
+    },
+    "/morning_inspirations/{postId}/comments/{commentId}": {
+      "schema": "morning_inspiration_comments",
+      "description": "Comments."
+    },
+    "/christianInspirations/{inspirationId}": {
+      "schema": "christian_inspirations",
+      "description": "Christian inspiration posts."
+    },
+    "/smsSubscribers/{subscriberId}": {
+      "schema": "sms_subscribers",
+      "description": "SMS subscribers."
+    },
+    "/apostle_config/global": {
+      "schema": "apostle_brain_config",
+      "description": "Global configuration for the Digital Apostle."
+    },
+    "/apostle_tasks/{taskId}": {
+      "schema": "apostle_tasks",
+      "description": "Tasks for the Apostle agent."
+    },
+    "/apostle_logs/{logId}": {
+      "schema": "apostle_logs",
+      "description": "Activity logs for the Apostle."
+    },
+    "/apostle_reports/{reportId}": {
+      "schema": "apostle_reports",
+      "description": "Strategic reports."
+    },
+    "/apostle_ux_issues/{issueId}": {
+      "schema": "apostle_ux_analysis",
+      "description": "Detected UX issues."
+    },
+    "/bible_translations/{translationId}": {
+      "schema": "bible_translations",
+      "description": "Bible translations."
+    },
+    "/bible_books/{bookId}": {
+      "schema": "bible_books",
+      "description": "Bible books."
+    },
+    "/bible_verses/{verseId}": {
+      "schema": "bible_verses",
+      "description": "Bible verses."
+    }
+  }
+}
