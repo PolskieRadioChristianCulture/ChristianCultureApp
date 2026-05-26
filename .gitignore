@@ -26,6 +26,7 @@ ios/
 *.txt
 !AGENTS.md
 !NATIVE_GUIDE.md
+!public/ads.txt
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
