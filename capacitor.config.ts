@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'pl.cclite.app',
-  appName: 'Christian Culture',
+  appName: 'CC Light',
   webDir: 'dist',
   server: {
     androidScheme: 'https'
