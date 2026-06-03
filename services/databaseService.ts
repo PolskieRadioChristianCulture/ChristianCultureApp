@@ -17,7 +17,7 @@ export const DatabaseService = {
 
       // Add custom agent update text
       const previousNews = parsed['Nowości CC'] || "Odkryj najnowszą wersję Christian Culture!";
-      parsed['Nowości CC'] = `[DEV] Wersja 1.4: Zmieniono nazwę aplikacji na CC Light w plikach konfiguracyjnych i strings.xml w celu odróżnienia jej od głównej aplikacji Christian Culture. Zastąpiono starą ikonę aplikacji nowym, neonowym logotypem CC oraz naprawiono błąd wyświetlania ikony (nie jest już cała czarna na telefonie).\n\n` + previousNews;
+      parsed['Nowości CC'] = `[DEV] Wersja 1.5: Wdrożono natywną obsługę reklam AdMob dla wersji mobilnej na Androidzie (automatyczne ładowanie i usuwanie natywnego baneru reklamowego po otwarciu i zamknięciu modalu „Wdowi Grosz”). Dla wersji webowej (strony cclite.pl) naprawiono kod jednostki reklamowej AdSense, podstawiając poprawny slot ID: 2009151047.\n\n[DEV] Wersja 1.4: Zmieniono nazwę aplikacji na CC Light w plikach konfiguracyjnych i strings.xml w celu odróżnienia jej od głównej aplikacji Christian Culture. Zastąpiono starą ikonę aplikacji nowym, neonowym logotypem CC oraz naprawiono błąd wyświetlania ikony (nie jest już cała czarna na telefonie).\n\n` + previousNews;
 
       const currentDB = PersistenceService.loadDynamicDB();
       const merged = { ...currentDB, ...parsed };

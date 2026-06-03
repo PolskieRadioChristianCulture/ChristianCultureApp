@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Heart, ShieldCheck, Info } from "lucide-react";
 import { Button } from "./ui/button";
+import { Capacitor } from "@capacitor/core";
+import { AdMob, BannerAdSize, BannerAdPosition } from "@capacitor-community/admob";
 
 interface WdowiGroszModalProps {
   isOpen: boolean;
@@ -16,13 +18,39 @@ export const WdowiGroszModal: React.FC<WdowiGroszModalProps> = ({
 }) => {
   useEffect(() => {
     if (isOpen) {
-      try {
-        // @ts-ignore
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-      } catch (e) {
-        console.error("AdSense error:", e);
+      if (Capacitor.isNativePlatform()) {
+        const showAdMobBanner = async () => {
+          try {
+            await AdMob.initialize({
+              initializeForTesting: false,
+            });
+            await AdMob.showBanner({
+              adId: 'ca-app-pub-6762200025251358/2009151047',
+              adSize: BannerAdSize.ADAPTIVE_BANNER,
+              position: BannerAdPosition.TOP_CENTER,
+              margin: 40,
+              isTesting: false,
+            });
+          } catch (error) {
+            console.error("Błąd ładowania AdMob:", error);
+          }
+        };
+        showAdMobBanner();
+      } else {
+        try {
+          // @ts-ignore
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {
+          console.error("AdSense error:", e);
+        }
       }
     }
+
+    return () => {
+      if (Capacitor.isNativePlatform()) {
+        AdMob.removeBanner().catch((err) => console.warn("AdMob remove error:", err));
+      }
+    };
   }, [isOpen]);
 
   return (
@@ -97,15 +125,21 @@ export const WdowiGroszModal: React.FC<WdowiGroszModalProps> = ({
                   <Info className="w-3 h-3" /> Reklama Wspierająca Misję
                 </div>
 
-                {/* AdSense Unit Placeholder */}
-                <ins
-                  className="adsbygoogle"
-                  style={{ display: "block", width: "100%", height: "auto" }}
-                  data-ad-client="ca-pub-6762200025251358"
-                  data-ad-slot="responsive"
-                  data-ad-format="auto"
-                  data-full-width-responsive="true"
-                ></ins>
+                {Capacitor.isNativePlatform() ? (
+                  <div className="text-center space-y-2">
+                    <p className="text-xs text-zinc-400">Reklama mobilna AdMob jest ładowana...</p>
+                    <p className="text-[10px] text-zinc-500 font-mono">ID: 2009151047</p>
+                  </div>
+                ) : (
+                  <ins
+                    className="adsbygoogle"
+                    style={{ display: "block", width: "100%", height: "auto" }}
+                    data-ad-client="ca-pub-6762200025251358"
+                    data-ad-slot="2009151047"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"
+                  ></ins>
+                )}
               </div>
 
               <div className="bg-zinc-800/50 p-4 rounded-xl border border-white/5 text-center italic text-sm text-zinc-400">
